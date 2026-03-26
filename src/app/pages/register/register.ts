@@ -9,7 +9,7 @@ import { ReactiveFormsModule,FormBuilder, FormGroup, FormControl, Validators } f
 
 @Component({
   selector: 'app-register',
-  imports: [MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule,PasswordField,ReactiveFormsModule],
+  imports: [MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, PasswordField, ReactiveFormsModule, MatInputModule],
   templateUrl: './register.html',
   styleUrl: './register.scss',
   encapsulation: ViewEncapsulation.Emulated  // vamos ficar atento a isso aqui
