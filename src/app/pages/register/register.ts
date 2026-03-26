@@ -32,6 +32,20 @@ export class Register {
   }
 
 
+  get fullNameErrors(): string | null{
+    const fullNameErrors = this.form.get('fullName');
+    if (fullNameErrors?.hasError('required')) return 'O nome completo é obrigatório'
+    if (fullNameErrors?.hasError('minlength')) return 'Cadastre um nome com mais de 3 letras'
+    return null
+}
+
+  get emailErrors(): string | null{
+    const emailErrors = this.form.get('email');
+    if (emailErrors?.hasError('required')) return 'O cadastro do e-mail é obrigatório'
+    if (emailErrors?.hasError('email')) return 'Este e-mail é inválido'
+    return null
+}
+
   submit(){
 
     if (this.form.invalid){
