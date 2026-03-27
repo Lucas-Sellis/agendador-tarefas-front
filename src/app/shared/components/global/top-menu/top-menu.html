@@ -16,7 +16,7 @@
 
 
     <button matButton>Entrar</button>
-    <button mat-flat-button routerLink="/register">
+    <button mat-flat-button [disabled]="estaNaRotaRegister()" routerLink="/register">
         Cadastrar-se
     </button>
 </mat-toolbar>
