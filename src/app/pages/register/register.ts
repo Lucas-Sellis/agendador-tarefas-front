@@ -7,10 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { PasswordField } from '../../shared/components/password-field/password-field';
 import { ReactiveFormsModule,FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserService } from '../../services/user';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-register',
-  imports: [MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, PasswordField, ReactiveFormsModule, MatInputModule],
+  imports: [MatProgressSpinnerModule,MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, PasswordField, ReactiveFormsModule, MatInputModule],
   templateUrl: './register.html',
   styleUrl: './register.scss',
   encapsulation: ViewEncapsulation.Emulated  // vamos ficar atento a isso aqui
@@ -19,7 +22,18 @@ import { UserService } from '../../services/user';
 export class Register {
   form: FormGroup;
 
-  constructor (private formBuilder: FormBuilder, private userService: UserService){ // injetamos a service aqqui do usuario
+  isLoading = false; // isso aqui e pra mostrar a bolinha de loading
+
+  constructor (
+    private formBuilder: 
+    FormBuilder, 
+    private userService: UserService,
+    private router: Router // cahama o router que leva para algum lugar
+  
+  )
+  
+  
+  { // injetamos a service aqqui do usuario
     this.form=this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['',[Validators.required, Validators.email]],
@@ -54,16 +68,25 @@ export class Register {
       return
     }
 
+
+
+
     const formData = this.form.value; // chamamos a service do usuario aqui
 
-    this.userService.register(formData).subscribe({
+    this. isLoading = true; // a bolinha de longin ele vai aparecer
+
+    this.userService.register(formData)
+    
+    .pipe(finalize(() => this.isLoading = false))
+    .subscribe({
       next: (response) => {
-        console.log(`Usuário registrado com sucesso`, response);
+        this.router.navigate(['/login']) // aqui pelo jeito ele vai pra pagina de login
 
       },
       error: (error) => {
         console.error(`Erro ao registrar usuário`, error)
-      }
+      },
+
     })
 
    

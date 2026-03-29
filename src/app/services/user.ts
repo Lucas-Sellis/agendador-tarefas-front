@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; // O "telefone" para ligar pro backend
+import { HttpClient } from '@angular/common/http'; // O telefone" para ligar pro backend
 import { Observable } from 'rxjs'; // O "contrato" de que vamos receber uma resposta depois
 
 // 1. O CONTRATO (Interface)
@@ -8,6 +8,41 @@ interface UserRegisterPayload {
   nome: string;
   email: string;
   senha: string;
+   enderecos?: [{ // aqui pode nao existir, se existir pega esse array
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }],
+  telefones?: [ // aqui pode nao existir, se existir pega esse array
+    {
+      numero: string,
+      ddd: string
+    } 
+  ]
+}
+
+
+
+interface UserRegisterResponse {
+  nome: string,
+  email: string,
+  enderecos: [{ // aqui eles existem ou podem ser null
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }] | null,
+  telefones: [
+    {
+      numero: string,
+      ddd: string
+    } | null
+  ]
 }
 
 @Injectable({
@@ -25,8 +60,8 @@ export class UserService {
 
   // 4. A AÇÃO (Método Register)
   // Recebe os dados do formulário e envia para a rota '/usuario' do seu backend
-  register(body: UserRegisterPayload): Observable<any> {
+  register(body: UserRegisterPayload): Observable< UserRegisterResponse> { // ele puxou o register la de cima com as coisas que vou receber
     // Faz um POST (Criação) enviando o objeto 'body' no corpo da requisição
-    return this.http.post(`${this.apiUrl}/usuario`, body);
+    return this.http.post < UserRegisterResponse>(`${this.apiUrl}/usuario`, body);
   }
 }
