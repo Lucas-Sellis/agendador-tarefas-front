@@ -54,6 +54,12 @@ export class TopMenu implements OnInit, OnDestroy {
   estaNaRotaRegister(): boolean {
     return this.rotaAtual === '/register';
   }
+
+   estaNaRotaLogin(): boolean {
+    return this.rotaAtual === '/login';
+  }
 }
+
+
 
 // Sua classe é um ouvinte em tempo real que monitora a navegação do usuário e atualiza automaticamente o menu para esconder ou mostrar botões (como o de cadastro) dependendo da página onde ele está.

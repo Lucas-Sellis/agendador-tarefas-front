@@ -73,7 +73,7 @@ export class Register {
 
     const formData = this.form.value; // chamamos a service do usuario aqui
 
-    this. isLoading = true; // a bolinha de longin ele vai aparecer
+    this.isLoading = true; // a bolinha de longin ele vai aparecer
 
     this.userService.register(formData)
     
@@ -85,6 +85,7 @@ export class Register {
       },
       error: (error) => {
         console.error(`Erro ao registrar usuário`, error)
+        
       },
 
     })
