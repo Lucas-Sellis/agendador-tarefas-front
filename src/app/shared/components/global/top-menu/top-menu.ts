@@ -34,7 +34,6 @@ export class TopMenu implements OnInit, OnDestroy {
     // Toda vez que a URL mudar na Service, esse código aqui dentro roda
     this.inscricaoRota = this.routerService.rotaAtual$.subscribe(url => {
       this.rotaAtual = url; // Atualiza a variável local com a nova URL
-      console.log('Opa, mudei de página para:', this.rotaAtual);
     });
   }
 

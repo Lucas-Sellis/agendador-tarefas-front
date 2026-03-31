@@ -16,6 +16,7 @@ import { UserLoginPayload, UserService } from '../../services/user';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -42,6 +43,7 @@ export class Login {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
+    private authService: Auth,
   ) {
     this.form = this.formBuilder.group({
       email: this.formBuilder.control('', {
@@ -82,7 +84,8 @@ export class Login {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (response) => {
-          this.router.navigate(['/']); 
+          this.authService.saveToken(response)
+          this.router.navigate(['/']);
         },
         error: (error) => {
           console.error(`Erro ao entrar`, error);
