@@ -7,6 +7,7 @@ import {  Subscription } from 'rxjs';
 import { RouterStateService } from '../../../../core/router/router-state';
 import { MatMenuModule } from "@angular/material/menu";
 import { Auth } from '../../../../services/auth';
+import { UserService } from '../../../../services/user';
 @Component({
   selector: 'app-top-menu',
   imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, RouterLink, MatMenuModule,],
@@ -28,6 +29,7 @@ export class TopMenu implements OnInit, OnDestroy {
   // O 'inject' busca a Service que criamos para vigiar as rotas
   private routerService = inject(RouterStateService); 
   private authService = inject(Auth);
+  private userService = inject (UserService)
   private route = inject(Router);
 
 
@@ -66,6 +68,16 @@ export class TopMenu implements OnInit, OnDestroy {
 
   get estaLogado(): boolean{
     return this.authService.isLoggedIn()
+  }
+
+
+  pegarInicialUsuario(): string{
+    const user = this.userService.getUser();
+     
+    if (user && user.nome) {
+      return user.nome.charAt(0).toUpperCase();
+    }
+    return '?'
   }
 
   logout(): void{

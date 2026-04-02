@@ -57,17 +57,12 @@ export class Login {
     });
   }
 
-  ngOnInit(): void{ // qunado logar ele vai pra rota taks que mostra as tarefas do usuario
-    if(this.authService.isLoggedIn()){
-      this.router.navigate(['/tasks'])
+  ngOnInit(): void {
+    // qunado logar ele vai pra rota taks que mostra as tarefas do usuario
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
     }
-
   }
-
-
-
-
-
 
   get passwordControl(): FormControl {
     return this.form.get('senha') as FormControl;
@@ -96,7 +91,14 @@ export class Login {
       .pipe(finalize(() => (this.isLoading = false)))
       .subscribe({
         next: (response) => {
-          this.authService.saveToken(response)
+          this.authService.saveToken(response);
+          this.userService.getUserByEmail(response).subscribe({
+            next: (user) => {
+              this.authService.saveUser(user);
+              
+              
+            },
+          });
           this.router.navigate(['/tasks']);
         },
         error: (error) => {
