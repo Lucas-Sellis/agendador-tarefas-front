@@ -28,7 +28,7 @@
     <div mat-card-avatar [mat-menu-trigger-for]="menu" class="avatar-usuario">{{pegarInicialUsuario()}}</div>
     
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Meus Dados</button>
+        <button mat-menu-item  routerLink="/user-data">Meus Dados</button> // o router link nos leva para a rota usar data quando clicamos no notao meus dadtos
         <button mat-menu-item (click)="logout()">Sair</button>
     </mat-menu>
 }
