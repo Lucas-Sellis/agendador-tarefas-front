@@ -24,4 +24,11 @@ export class UserData {
     nome: [{ value: this.user?.nome || '', disabled: true }],
     email: [{ value: this.user?.email || '', disabled: true }],
   });
+
+  cadastrarEndereco(){
+  }
+
+  cadastrarTelefone(){
+  }
+
 }
