@@ -2,12 +2,15 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {  RouterLink, RouterModule } from "@angular/router";
+import {  Router, RouterLink, RouterModule } from "@angular/router";
 import {  Subscription } from 'rxjs';
 import { RouterStateService } from '../../../../core/router/router-state';
+import { MatMenuModule } from "@angular/material/menu";
+import { Auth } from '../../../../services/auth';
+import { UserService } from '../../../../services/user';
 @Component({
   selector: 'app-top-menu',
-  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, RouterLink],
+  imports: [MatToolbarModule, MatButtonModule, MatIconModule, RouterModule, RouterLink, MatMenuModule,],
   templateUrl: './top-menu.html',
   styleUrl: './top-menu.scss',
 })
@@ -25,6 +28,11 @@ export class TopMenu implements OnInit, OnDestroy {
   // 2. Injeção de Dependência Moderna
   // O 'inject' busca a Service que criamos para vigiar as rotas
   private routerService = inject(RouterStateService); 
+  private authService = inject(Auth);
+  private userService = inject (UserService)
+  private route = inject(Router);
+
+
 
   /**
    * ngOnInit: Ciclo de vida disparado quando o componente "nasce"
@@ -57,6 +65,29 @@ export class TopMenu implements OnInit, OnDestroy {
    estaNaRotaLogin(): boolean {
     return this.rotaAtual === '/login';
   }
+
+  get estaLogado(): boolean{
+    return this.authService.isLoggedIn()
+  }
+
+
+  pegarInicialUsuario(): string{
+    const user = this.userService.getUser();
+     
+    if (user && user.nome) {
+      return user.nome.charAt(0).toUpperCase();
+    }
+    return '?'
+  }
+
+  logout(): void{
+    this.authService.logout();
+    this.route.navigate(['/login'])
+  }
+
+
+
+
 }
 
 

@@ -7,7 +7,10 @@
 
     </span>
 
-    <span class="space"></span>
+
+    @if (!estaLogado) {
+
+   <span class="space"></span>
 
     <a matButton>Preços</a>
     <a matButton>Contatos</a>
@@ -19,4 +22,18 @@
     <button mat-flat-button [disabled]="estaNaRotaRegister()" routerLink="/register">
         Cadastrar-se
     </button>
+}
+
+   @if (estaLogado) {
+    <div mat-card-avatar [mat-menu-trigger-for]="menu" class="avatar-usuario">{{pegarInicialUsuario()}}</div>
+    
+    <mat-menu #menu="matMenu">
+
+        <!--  // o router link nos leva para a rota usar data quando clicamos no notao meus dadtos -->
+        <button mat-menu-item  routerLink="/user-data">Meus Dados</button>
+        <button mat-menu-item (click)="logout()">Sair</button>
+    </mat-menu>
+}
+
+ 
 </mat-toolbar>

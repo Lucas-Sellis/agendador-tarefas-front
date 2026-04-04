@@ -1,0 +1,13 @@
+.meus-dados-card {
+  max-width: 600px;   // Limita a largura do card
+  margin: 2rem auto;  // Centraliza horizontalmente com espaçamento vertical
+  padding: 1rem;      // Espaçamento interno do card
+
+  .meus-dados-header {
+    padding: 0 1rem;  // Ajusta espaçamento lateral do header
+  }
+
+  .meus-dados-titulo {
+    padding-bottom: 1rem; // Espaço abaixo do título
+  }
+}
