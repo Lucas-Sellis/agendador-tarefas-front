@@ -1,0 +1,19 @@
+<!-- o h2 aqui tem o tal do modal, la quando a gente for adicionar o endereco ou teledone ele abre uma janela que salva os dados
+ esse negocio ta dando uma volta do caramba e nao entendi nada -->
+
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content>
+  <form [formGroup]="form">
+    @for (field of fields; track field.name) {
+      <mat-form-field class="full-width">
+        <mat-label>{{field.label}}</mat-label>
+        <input matInput [formControlName]="field.name" />
+      </mat-form-field>
+    }
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button matButton (click)="onCancel()">Cancelar</button>
+  <button matButton cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
