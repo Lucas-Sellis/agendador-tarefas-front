@@ -53,10 +53,14 @@ export class ModalDialog {
       controls[field.name] = ['', field.validators || []]
     })
 
-    return controls
+    return controls;
   }
 
   form: FormGroup = this.formBuilder.group(this.buildControls())
+
+  onSave(){
+    this.dialogRef.close(this.form.value)
+  }
   
   onCancel(): void {
     this.dialogRef.close();

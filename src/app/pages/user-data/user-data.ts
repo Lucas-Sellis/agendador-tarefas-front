@@ -7,6 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { UserResponse, UserService } from '../../services/user';
 import { DialogField, ModalDialog } from '../../shared/components/modal-dialog/modal-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { Token } from '@angular/compiler';
+import { Auth } from '../../services/auth';
+import {MatListModule} from '@angular/material/list';
+
 
 @Component({
   selector: 'app-user-data',
@@ -16,6 +20,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
+    MatListModule
   ],
   templateUrl: './user-data.html',
   styleUrl: './user-data.scss',
@@ -23,15 +28,16 @@ import { MatDialog } from '@angular/material/dialog';
 export class UserData {
   private formBuilder = inject(FormBuilder);
   private userService = inject(UserService);
+  private authService = inject(Auth);
   readonly dialog = inject(MatDialog);
 
   // 1. Pegamos os dados do usuário
-  user = this.userService.getUser();
+  user = this.userService.user;
 
   // 2. Inicializamos o formulário usando os dados da variável acima
   form: FormGroup = this.formBuilder.group({
-    nome: [{ value: this.user?.nome || '', disabled: true }],
-    email: [{ value: this.user?.email || '', disabled: true }],
+    nome: [{ value: this.user()?.nome || '', disabled: true }],
+    email: [{ value: this.user()?.email || '', disabled: true }],
   });
 
   // cara isso aqui é uma tal de Modal foi pego la no angular material
@@ -51,11 +57,15 @@ export class UserData {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      console.log('cadastro endereço', result );
     });
   }
 
   cadastrarTelefone() {
+
+    const token = this.authService.getToken()
+    if (!token) return
+
     const formConfig: DialogField[] = [
       { name: 'ddd', label: 'DDD', validators: [Validators.required] },
       { name: 'numero', label: 'Número', validators: [Validators.required] },
@@ -66,7 +76,12 @@ export class UserData {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log('The dialog was closed');
+      if (result){
+        this.userService.saveTelefone(result, token).subscribe({
+          next: () => console.log('Telefone cadastrado com sucesso', result),
+          error: () => console.log('Erro ao cadastrar teledone', result),
+        })
+      }
     });
   }
 }
